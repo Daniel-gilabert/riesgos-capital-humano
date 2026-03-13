@@ -17,6 +17,7 @@ def load_runtime_env() -> None:
             "DATA_SOURCE",
             "SUPABASE_URL",
             "SUPABASE_KEY",
+            "SUPABASE_SERVICE_KEY",
             "LOG_LEVEL",
         ):
             if key in secrets and key not in os.environ:
@@ -51,3 +52,15 @@ def get_logo_path() -> str:
 def get_data_source() -> str:
     load_runtime_env()
     return os.environ.get("DATA_SOURCE", DEFAULT_DATA_SOURCE)
+
+def get_supabase_url() -> str:
+    load_runtime_env()
+    return os.environ.get("SUPABASE_URL", "")
+
+def get_supabase_key() -> str:
+    load_runtime_env()
+    return os.environ.get("SUPABASE_KEY", "")
+
+def get_supabase_service_key() -> str:
+    load_runtime_env()
+    return os.environ.get("SUPABASE_SERVICE_KEY", "")

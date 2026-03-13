@@ -28,6 +28,13 @@ class AnalyzePage:
             with st.spinner("Procesando datos..."):
                 citas = self.data_service.load_citas_desde_excel(archivo)
                 resultados = self.analisis_service.calcular_costos(citas)
+                
+                # Guardar resultados en Supabase si está configurado
+                if hasattr(self.data_service, 'save_analisis_result'):
+                    nombre_archivo = getattr(archivo, 'name', 'archivo_desconocido')
+                    analisis_id = self.data_service.save_analisis_result(resultados, nombre_archivo)
+                    if analisis_id:
+                        st.success(f"Análisis guardado en la base de datos con ID: {analisis_id}")
             
             # Mostrar métricas principales
             st.subheader("Resumen de Costos")
