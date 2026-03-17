@@ -17,6 +17,10 @@ function Run-Review {
 }
 
 function Run-Commit {
+    param(
+        [switch]$SkipIfNoChanges
+    )
+
     if ([string]::IsNullOrWhiteSpace($Message)) {
         throw "Commit message required. Example: .\daily.ps1 commit -Message chore: update daily changes"
     }
@@ -28,6 +32,10 @@ function Run-Commit {
 
     git diff --cached --quiet
     if ($LASTEXITCODE -eq 0) {
+        if ($SkipIfNoChanges) {
+            Write-Host "No staged changes to commit. Skipping commit step." -ForegroundColor Yellow
+            return
+        }
         throw "No staged changes to commit."
     }
 
@@ -41,6 +49,6 @@ switch ($Step) {
     "all" {
         Show-Status
         Run-Review
-        Run-Commit
+        Run-Commit -SkipIfNoChanges
     }
 }
