@@ -74,12 +74,23 @@ class CitaMedica(BaseModel):
     fecha_cita: Optional[datetime] = field(default=None)  # fecha (incluye fecha y hora)
     asistencia: str = field(default="")       # "Sí" o "No"
     anulada: str = field(default="")          # "Sí" o "No"
+
+    @staticmethod
+    def _normalizar_booleano(valor: Any) -> bool:
+        if isinstance(valor, bool):
+            return valor
+        if valor is None:
+            return False
+
+        texto = str(valor).strip().lower()
+        positivos = {"si", "sí", "s", "true", "1", "x", "yes", "y"}
+        return texto in positivos
     
     def asistio(self) -> bool:
-        return self.asistencia.strip().lower() == "sí"
+        return self._normalizar_booleano(self.asistencia)
     
     def fue_anulada(self) -> bool:
-        return self.anulada.strip().lower() == "sí"
+        return self._normalizar_booleano(self.anulada)
     
     def genera_costo(self) -> bool:
         """Retorna True si esta cita genera un costo (20€ de penalización)"""

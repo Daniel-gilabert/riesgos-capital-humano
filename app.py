@@ -3,10 +3,12 @@ from ui.layouts.base_layout import BaseLayout
 from ui.pages.home import HomePage
 from ui.pages.analyze import AnalyzePage
 from ui.pages.settings import SettingsPage
+from config import get_app_name
 
 def main():
+    app_name = get_app_name()
     st.set_page_config(
-        page_title="Riesgos de Capital Humano",
+        page_title=app_name,
         page_icon="assets/logo.png" if st.session_state.get("logo_path") else None,
         layout="wide",
         initial_sidebar_state="expanded"
@@ -21,7 +23,7 @@ def main():
     
     # Sidebar navigation
     with st.sidebar:
-        st.title("Riesgos de Capital Humano")
+        st.title(app_name)
         st.caption("Análisis y gestión de riesgos organizacionales")
         
         # Placeholder for user info

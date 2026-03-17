@@ -128,3 +128,4 @@ Thumbs.db
 # Project specific
 sample_data/*  # Keep the directory but ignore contents unless we want to commit example
 !sample_data/.gitkeep
+agent-teams-lite/
